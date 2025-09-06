@@ -1,5 +1,6 @@
 from pkg.plugin.context import register, handler, llm_func, BasePlugin, APIHost, EventContext
 from pkg.plugin.events import *  # 导入事件类
+import re
 
 
 # 注册插件
@@ -17,7 +18,7 @@ class FormatResponsePlugin(BasePlugin):
     # 当收到个人消息时触发
     @handler(NormalMessageResponded)
     async def normal_message_responded(self, ctx: EventContext):
-        msg = ctx.event.response_text  # 这里的 event 即为 PersonNormalMessageReceived 的对象
+        response_text = ctx.event.response_text  # 这里的 event 即为 PersonNormalMessageReceived 的对象
 
         prefix_pattern = (
             r"^\s*⊰•-•✧•-•-⦑/L\\O\\V\\E/\\P\\L\\I\\N\\Y/⦒-•-•✧•-•⊱\s*"
@@ -26,13 +27,14 @@ class FormatResponsePlugin(BasePlugin):
         response_text = re.sub(prefix_pattern, "", response_text, flags=re.IGNORECASE | re.MULTILINE)
         # Trim leading and trailing whitespace
         response_text = response_text.strip()
-        event["response_text"] = response_text
+        response_text += "This be test"
+        ctx.event.response_text = response_text
 
         # 回复消息 "hello, <发送者id>!"
-        ctx.add_return("reply", ["hello, {}!".format(ctx.event.sender_id)])
+        #ctx.add_return("reply", ["hello, {}!".format(ctx.event.sender_id)])
 
         # 阻止该事件默认行为（向接口获取回复）
-        ctx.prevent_default()
+        #ctx.prevent_default()
 
     # 插件卸载时触发
     def __del__(self):
