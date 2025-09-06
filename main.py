@@ -28,13 +28,13 @@ class FormatResponsePlugin(BasePlugin):
         # Trim leading and trailing whitespace
         response_text = response_text.strip()
         response_text += "This be test"
-        ctx.event.response_text = response_text
+        #ctx.event.response_text = response_text
 
         # 回复消息 "hello, <发送者id>!"
-        #ctx.add_return("reply", ["hello, {}!".format(ctx.event.sender_id)])
+        ctx.add_return("reply", [response_text])
 
         # 阻止该事件默认行为（向接口获取回复）
-        #ctx.prevent_default()
+        ctx.prevent_default()
 
     # 插件卸载时触发
     def __del__(self):
