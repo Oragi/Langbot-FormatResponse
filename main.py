@@ -3,7 +3,7 @@ from pkg.plugin.events import *  # 导入事件类
 
 
 # 注册插件
-@register(name="Hello", description="hello world", version="0.1", author="RockChinQ")
+@register(name="FormatResponse", description="format response", version="0.1", author="Oragi")
 class FormatResponsePlugin(BasePlugin):
 
     # 插件加载时触发
